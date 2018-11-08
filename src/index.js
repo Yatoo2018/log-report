@@ -1,9 +1,14 @@
+
+
 /**
  * @description 一个日志类
  * @author 069810
  * @date 2018-10-30
  * @class LogRobot
  */
+
+
+ 
 class LogRobot{ 
 
   constructor(ops) {
