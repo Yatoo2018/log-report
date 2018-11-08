@@ -5,9 +5,9 @@
 
 ## 前端异常类型(Execption)
 
-### [WebIDL]((https://heycam.github.io/webidl/#idl-exceptions))和[ecma-262](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard)中的错误类型
+### [WebIDL](https://heycam.github.io/webidl/#idl-exceptions)和[ecma-262](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard)中的错误类型
 
-- [ECMAScript exceptions]((https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard))  <==> [IDL 的简单异常](https://heycam.github.io/webidl/#dfn-simple-exception)
+- [ECMAScript exceptions](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard)  <==> [IDL 的简单异常](https://heycam.github.io/webidl/#dfn-simple-exception)
   
   当脚本代码运行时发生的错误，会创建Error对象，并将其抛出，除了通用的Error构造函数外，以下是另外几个ECMAScript 2015中定义的错误构造函数。
   - __EvalError__ eval错误
@@ -18,7 +18,7 @@
   - __SyntaxError__ 语法错误 (这个错误WebIDL中故意省略，保留给ES解析器使用)
   - __Error__ 通用错误 （这个错误WebIDL中故意省略，保留给开发者使用使用）
   
-- [DOMException](https://heycam.github.io/webidl/#idl-DOMException) 最新的DOM规范已废弃的错误类型集，但是浏览器中还在延用, 错误类型只为了兼容以前的旧浏览器的错误类型。
+- [DOMException](https://heycam.github.io/webidl/#idl-DOMException) 最新的DOM规范定义的的错误类型集，兼容旧浏览的DOMError接口, 完善和规范化DOM错误类型。
   - __IndexSizeError__ 索引不在允许的范围内
   - __HierarchyRequestError__ 节点树层次结构是不正确的。
   - __WrongDocumentError__ 对象是错误的
