@@ -18,7 +18,7 @@
   - __SyntaxError__ 语法错误 (这个错误WebIDL中故意省略，保留给ES解析器使用)
   - __Error__ 通用错误 （这个错误WebIDL中故意省略，保留给开发者使用使用）
   
-- [DOMException](https://heycam.github.io/webidl/#idl-DOMException) 最新的DOM规范定义的的错误类型集，兼容旧浏览的DOMError接口, 完善和规范化DOM错误类型。
+- [DOMException](https://heycam.github.io/webidl/#idl-DOMException) 最新的DOM规范定义的错误类型集，兼容旧浏览的DOMError接口, 完善和规范化DOM错误类型。
   - __IndexSizeError__ 索引不在允许的范围内
   - __HierarchyRequestError__ 节点树层次结构是不正确的。
   - __WrongDocumentError__ 对象是错误的
