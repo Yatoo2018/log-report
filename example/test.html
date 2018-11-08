@@ -1,0 +1,78 @@
+<script src="../dist/index.js"></script>
+<link rel="stylesheet" type="text/css" href="./static/ica/style.css">
+<img src="./static/bg1.jpg" alt="">
+
+<audio src="./static/bg1.mp3" alt=""></audio>
+<video src="./static/bg1.mp4"></video> -->
+<script crossorigin="anonymous" src="./static/wrapHTTP.js"></script>
+<script>
+
+  window.addEventListener('error',function(e) {
+    var eventType=[].toString.call(e,e)
+    if(eventType==='[object Event]') {
+      robot.instance.add(this, {
+        logType: "error", 
+        name:'DOM load error', 
+        message: e.type ,
+        extraInfo: {
+          e:e,
+          toString: function() {
+            var s = "";
+            var c=[" [tree: "]; 
+            e.path.forEach(function(item) {
+              if(typeof item.tagName!=="undefined") {
+                c.push(item.tagName)
+              } else {
+                c.push(item.toString().match(/^\[object (.*)\]$/)[1])
+              }
+            })
+            c.push(' ] ')
+            s += c.join("->")
+            s += " [outerHTML: " + e.target.outerHTML + " ] "
+            return s
+          }
+        }
+      })
+    } else if(eventType === "[object ErrorEvent]") {
+      robot.instance.add(this,{
+        logType: "error",
+        name: 'runtime error',
+        message: e.message,
+        extraInfo: {
+          e: e,
+          toString: function() {
+            var s="";
+            s += " [filename: " + e.filename + " ] "
+            s += " [errormessage: " + e.error.message + " ]  [errorstack: "  + e.error.stack +" ] "
+            return s
+          }
+        }
+      })
+    }
+  },true);
+
+  window.onerror = function(message,source,lineno,colno,error) {
+    console.log(message,source,lineno,colno,error)
+    robot.instance.add(this,{
+      logType: "error",
+      name: 'runtime error',
+      message: message,
+      extraInfo: {
+        toString: function() {
+          var s="";
+          s+=" [filename: "+source+":"+lineno+":"+colno+" ] "
+          s+=" [errormessage: "+error+" ] "
+          return s
+        }
+      }
+    })
+  }
+  
+</script>
+
+<script src="../dist/index.a.js"></script>
+
+<script>
+
+throw new Error("模拟运行时错误")
+</script>

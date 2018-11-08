@@ -1,34 +1,30 @@
 const path = require('path');
 
-module.exports={
-  mode: "production", // "production" | "development" | "none"  // Chosen mode tells webpack to use its built-in optimizations accordingly.
-  entry: "./app/entry", // string | object | array  // defaults to './src'
+module.exports = {
+  mode: "development", // "production" | "development" | "none"  // Chosen mode tells webpack to use its built-in optimizations accordingly.
+  entry: "./src/index.esm.js", // string | object | array  // defaults to './src'
   // Here the application starts executing
   // and webpack starts bundling
   output: {
     // options related to how webpack emits results
-    path: path.resolve(__dirname,"dist"), // string
+    path: path.resolve(__dirname, "dist"), // string
     // the target directory for all output files
     // must be an absolute path (use the Node.js path module)
-    filename: "bundle.js", // string    // the filename template for entry chunks
+    filename: "index.js", // string    // the filename template for entry chunks
     publicPath: "/assets/", // string    // the url to the output directory resolved relative to the HTML page
     library: "MyLibrary", // string,
     // the name of the exported library
-    libraryTarget: "umd", // universal module definition    // the type of the exported library
+    libraryTarget: "umd" // universal module definition    // the type of the exported library
     /* Advanced output configuration (click to show) */
-},
+  },
   module: {
     // configuration regarding modules
     rules: [
       // rules for modules (configure loaders, parser options, etc.)
       {
         test: /\.jsx?$/,
-        include: [
-          path.resolve(__dirname,"app")
-        ],
-        exclude: [
-          path.resolve(__dirname,"app/demo-files")
-        ],
+        include: [path.resolve(__dirname, "src")],
+        exclude: [],
         // these are matching conditions, each accepting a regular expression or string
         // test and include have the same behavior, both must be matched
         // exclude must not be matched (takes preference over test and include)
@@ -36,7 +32,7 @@ module.exports={
         // - Use RegExp only in test and for filename matching
         // - Use arrays of absolute paths in include and exclude
         // - Try to avoid exclude and prefer include
-        issuer: {test,include,exclude},
+        // issuer: {test,include,exclude},
         // conditions for the issuer (the origin of the import)
         enforce: "pre",
         enforce: "post",
@@ -46,8 +42,22 @@ module.exports={
         // -loader suffix is no longer optional in webpack2 for clarity reasons
         // see webpack 1 upgrade guide
         options: {
-          presets: ["es2015"]
-        },
+          presets: ["@babel/preset-env"],
+          plugins: [
+            // Stage 2
+            ["@babel/plugin-proposal-decorators", { legacy: true }],
+            "@babel/plugin-proposal-function-sent",
+            "@babel/plugin-proposal-export-namespace-from",
+            "@babel/plugin-proposal-numeric-separator",
+            "@babel/plugin-proposal-throw-expressions",
+
+            // Stage 3
+            "@babel/plugin-syntax-dynamic-import",
+            "@babel/plugin-syntax-import-meta",
+            ["@babel/plugin-proposal-class-properties", { loose: false }],
+            "@babel/plugin-proposal-json-strings"
+          ]
+        }
         // options for the loader
       },
       {
@@ -62,50 +72,36 @@ module.exports={
             }
           }
         ]
-      },
-      {oneOf: [ /* rules */]},
-      // only use one of these nested rules
-      {rules: [ /* rules */]},
-      // use all of these nested rules (combine with conditions to be useful)
-      {resource: {and: [ /* conditions */]}},
-      // matches only if all conditions are matched
-      {resource: {or: [ /* conditions */]}},
-      {resource: [ /* conditions */]},
-      // matches if any condition is matched (default for arrays)
-      {resource: {not: /* condition */ }}
-      // matches if the condition is not matched
-    ],
+      }
+    ]
     /* Advanced module configuration (click to show) */
-},
+  },
   resolve: {
     // options for resolving module requests
     // (does not apply to resolving to loaders)
-    modules: [
-      "node_modules",
-      path.resolve(__dirname,"app")
-    ],
+    modules: ["node_modules", path.resolve(__dirname, "app")],
     // directories where to look for modules
-    extensions: [".js",".json",".jsx",".css"],
+    extensions: [".js", ".json", ".jsx", ".css"],
     // extensions that are used
     alias: {
       // a list of module name aliases
-      "module": "new-module",
+      module: "new-module",
       // alias "module" -> "new-module" and "module/path/file" -> "new-module/path/file"
       "only-module$": "new-module",
       // alias "only-module" -> "new-module", but not "only-module/path/file" -> "new-module/path/file"
-      "module": path.resolve(__dirname,"app/third/module.js"),
+      module: path.resolve(__dirname, "app/third/module.js")
       // alias "module" -> "./app/third/module.js" and "module/file" results in error
       // modules aliases are imported relative to the current context
-    },
+    }
     /* alternative alias syntax (click to show) */
     /* Advanced resolve configuration (click to show) */
-},
+  },
   performance: {
     hints: "warning", // enum    maxAssetSize: 200000, // int (in bytes),
     maxEntrypointSize: 400000, // int (in bytes)
     assetFilter: function(assetFilename) {
       // Function predicate that provides asset filenames
-      return assetFilename.endsWith('.css')||assetFilename.endsWith('.js');
+      return assetFilename.endsWith(".css") || assetFilename.endsWith(".js");
     }
   },
   devtool: "source-map", // enum  // enhance debugging by adding meta info for the browser devtools
@@ -116,29 +112,31 @@ module.exports={
   //   is resolved relative to this directory
   target: "web", // enum  // the environment in which the bundle should run
   // changes chunk loading behavior and available modules
-  externals: ["react",/^@angular\//],  // Don't follow/bundle these modules, but request them at runtime from the environment
-  serve: { //object
+  externals: ["react", /^@angular\//], // Don't follow/bundle these modules, but request them at runtime from the environment
+  serve: {
+    //object
     port: 1337,
-    content: './dist',
+    content: "./dist"
     // ...
   },
   // lets you provide options for webpack-serve
-  stats: "errors-only",  // lets you precisely control what bundle information gets displayed
+  stats: "errors-only", // lets you precisely control what bundle information gets displayed
   devServer: {
-    proxy: { // proxy URLs to backend development server
-      '/api': 'http://localhost:3000'
+    proxy: {
+      // proxy URLs to backend development server
+      "/api": "http://localhost:3000"
     },
-    contentBase: path.join(__dirname,'public'), // boolean | string | array, static file location
+    contentBase: path.join(__dirname, "public"), // boolean | string | array, static file location
     compress: true, // enable gzip compression
     historyApiFallback: true, // true for index.html upon 404, object for multiple paths
     hot: true, // hot module replacement. Depends on HotModuleReplacementPlugin
     https: false, // true for self-signed, object for cert authority
-    noInfo: true, // only errors & warns on hot reload
+    noInfo: true // only errors & warns on hot reload
     // ...
   },
   plugins: [
     // ...
-  ],
+  ]
   // list of additional plugins
   /* Advanced configuration (click to show) */
-}
+};
