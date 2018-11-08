@@ -81,6 +81,7 @@
 ### try-catch-finally
 
 将能引发错误的代码块放到try中，并对应一个响应，然后有异常会被捕获
+
 ```JavaScript
   try {
     // 模拟一段可能有错误的代码
