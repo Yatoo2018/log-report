@@ -3,6 +3,13 @@
 > 如果debug是移除bug的流程，那么编程就一定是将bug放进去的流程。
 > 如果没有用户反馈问题，那就代表我们的产品棒棒哒，对不对？
 
+## 主要内容
+
+- Web规范中相关前端异常
+- 异常按照捕获方式分类
+- 异常的捕获方式
+- 错误上报的方式
+
 ## 前端异常类型(Execption)
 
 ### [WebIDL](https://heycam.github.io/webidl/#idl-exceptions)和[ecma-262](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard)中的错误类型
@@ -244,14 +251,16 @@ window.fetch = function() {
 1. 客户端在script标签上增加crossorigin属性；
 2. 服务端设置js资源响应头Access-Control-Origin:*（或者是域名）。
 
-## 业界已经有的监控平台
+## 扩展阅读
+
+### 业界已经有的监控平台
 
 - Sentry开源
 - 阿里的ARMS
 - fundebug
 - FrontJS
 
-## 扩展阅读
+### 几个异常监控的问题
 
 - 如何保证大家提交的代码是符合预期的？ 如何了解前端项目的运行是否正常，是否存在错误？
 
@@ -286,3 +295,39 @@ window.fetch = function() {
 - 如果我们使用了脚本代码压缩，然而我们又不想将sourcemap文件发布到线上，我们怎么捕获到错误的具体信息？
 
 - CSS文件中也存在引用资源，@font-face, background-image ...等这些请求错误该如何进行错误捕获？
+
+
+
+## 总结
+
+- Web规范中相关前端异常
+  - DOM处理异常
+  - ECMAScript处理异常
+- 异常按照捕获方式分类
+  - 运行时异常
+  - 资源加载异常
+  - 异步请求异常
+  - Promise异常
+- 异常的捕获方式
+  - try-catch (ES提供基本的错误捕获语法)
+    - 只能捕获同步代码的异常
+    - ~~回调~~
+    - ~~setTimeout~~
+    - ~~promise~~
+  - window.onerror = cb (DOM0)
+    - img
+    - script
+    - link
+  - window.addEventListener('error', cb, true) (DOM2)
+  - window.addEventListener("unhandledrejection", cb) (DOM4)
+  - Promise.then().catch(cb)
+  - 封装XMLHttpRequest&fetch | 覆写请求接口对象
+
+  注意点：跨源脚本异常的捕获
+
+- 错误上报的方式
+  - 异步请求上报
+  - new img上报
+- 扩展阅读
+  - 业界已有的异常监控平台
+  - 几个跟异常监控有关的问题
